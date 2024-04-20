@@ -1,11 +1,19 @@
 const express = require('express');
 const cors = require('cors');
 const config = require('./config/config');
+const connectDB = require('./config/db');
 
+connectDB();
+
+// region db
 const app = express();
 
-// Middleware
-app.use(cors());
+// region middleware
+app.use(
+    cors({
+        origin: config.allowedOrigins,
+    }),
+);
 app.use(express.json());
 
 // region routes
