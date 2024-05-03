@@ -3,7 +3,7 @@ const config = require('./config');
 
 const connectDB = async () => {
     try {
-        const uri = config.MONGODB_URI;
+        const uri = config.mongodb_uri;
         await mongoose.connect(uri);
         const connection = mongoose.connection;
         console.log('MONGODB CONNECTED SUCCESSFULLY!');

@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const config = require('./config/config');
 const connectDB = require('./config/db');
@@ -15,10 +17,14 @@ app.use(
     }),
 );
 app.use(express.json());
+app.use(cookieParser());
 
 // region routes
 const customerRoutes = require('./routes/customerRoutes');
-app.use('/customer', customerRoutes);
+const ciamRoutes = require('./routes/ciamRoutes');
+
+app.use('/customer-service', customerRoutes);
+app.use('/authentication-service', ciamRoutes);
 
 // Start the server
 app.listen(config.port, () => {

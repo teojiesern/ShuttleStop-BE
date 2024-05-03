@@ -1,6 +1,6 @@
 // const Example = require('../models/example');
 
-exports.getExamples = async () => {
+exports.getCustomerStatus = async () => {
     return 'Getting examples';
 };
 

@@ -1,8 +1,8 @@
 const customerService = require('../services/customerService');
 
-exports.getExamples = async (req, res) => {
+exports.getCustomerStatus = async (req, res) => {
     try {
-        const examples = await customerService.getExamples();
+        const examples = await customerService.getCustomerStatus();
         res.json(examples);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
