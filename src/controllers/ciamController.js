@@ -10,20 +10,30 @@ const login = async (req, res) => {
         //     });
         // }
 
-        res.cookie('token', '12344', {
-            expire: new Date() + 9999,
-        });
+        // 1 day expiry
+        res.cookie('shuttle-token', '1', { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
 
         return res.json({
             user: { name: 'hello' },
         });
     } catch (err) {
-        return res.status('401').json({
+        console.log(err);
+        return res.status(401).json({
             error: 'Could not sign in',
         });
     }
 };
 
+const hasCookie = (req, res, next) => {
+    if (!req.cookies || !req.cookies['shuttle-token']) {
+        return res.status(401).json({
+            error: 'User is not logged in',
+        });
+    }
+    next();
+};
+
 module.exports = {
     login,
+    hasCookie,
 };

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const customerController = require('../controllers/customerController');
+const ciamController = require('../controllers/ciamController');
 
-router.get('/status', customerController.getCustomerStatus);
-router.get('/create', customerController.createExample);
+router.route('/').get(ciamController.hasCookie, customerController.getCustomer);
 
 module.exports = router;

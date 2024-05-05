@@ -1,7 +1,7 @@
 // const Example = require('../models/example');
 
-exports.getCustomerStatus = async () => {
-    return 'Getting examples';
+exports.getCustomer = async (cookie) => {
+    return cookie;
 };
 
 exports.createExample = async (name) => {
