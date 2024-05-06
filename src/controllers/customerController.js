@@ -1,6 +1,5 @@
 const customerService = require('../services/customerService');
 const Customer = require('../models/CustomerSchema');
-const errorHandler = require('../handlers/dbErrorHandlers');
 
 const getCustomer = async (req, res) => {
     try {
