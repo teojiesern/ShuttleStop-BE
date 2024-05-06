@@ -1,11 +1,18 @@
-// const Example = require('../models/example');
+const CustomerModel = require('../models/CustomerSchema');
 
-exports.getCustomer = async (cookie) => {
-    return cookie;
+const getCustomerById = async (customerId) => {
+    const Customer = await CustomerModel.findOne({ customerId });
+
+    return Customer;
 };
 
-exports.createExample = async (name) => {
-    // const example = new Example({ name });
-    // return await example.save();
-    return 'Creating example';
+const getCustomerByEmail = async (email) => {
+    const Customer = await CustomerModel.findOne({ email });
+
+    return Customer;
+};
+
+module.exports = {
+    getCustomerById,
+    getCustomerByEmail,
 };

@@ -3,8 +3,10 @@ const Customer = require('../models/CustomerSchema');
 
 const getCustomer = async (req, res) => {
     try {
-        const examples = await customerService.getCustomer(req.cookies['shuttle-token']);
-        res.json(examples);
+        const customerId = req.cookies['shuttle-token'];
+        const customer = await customerService.getCustomerById(customerId);
+
+        res.json(customer);
     } catch (error) {
         res.status(500).json({ type: 'internal-server-error' });
     }
