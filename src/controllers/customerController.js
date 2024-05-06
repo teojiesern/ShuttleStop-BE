@@ -6,6 +6,12 @@ const getCustomer = async (req, res) => {
         const customerId = req.cookies['shuttle-token'];
         const customer = await customerService.getCustomerById(customerId);
 
+        if (!customer) {
+            return res.status(404).json({
+                type: 'user-not-found',
+            });
+        }
+
         res.json(customer);
     } catch (error) {
         res.status(500).json({ type: 'internal-server-error' });
