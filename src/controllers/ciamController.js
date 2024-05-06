@@ -1,8 +1,9 @@
 const CiamService = require('../services/ciamService');
+const CustomerService = require('../services/customerService');
 
 const login = async (req, res) => {
     try {
-        const customer = await CiamService.findCustomer(req.body.email);
+        const customer = await CustomerService.getCustomerByEmail(req.body.email);
 
         if (!customer) {
             return res.status(404).json({
