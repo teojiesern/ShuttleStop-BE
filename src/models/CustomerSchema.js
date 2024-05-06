@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 
 const CustomerSchema = new mongoose.Schema({
+    customerId: {
+        type: String,
+        default: uuidv4,
+        unique: true,
+    },
     name: {
         type: String,
         trim: true,
@@ -19,11 +25,6 @@ const CustomerSchema = new mongoose.Schema({
         required: 'Password is required',
     },
     salt: String,
-    updated: Date,
-    created: {
-        type: Date,
-        default: Date.now,
-    },
     seller: {
         type: Boolean,
         default: false,
@@ -41,8 +42,8 @@ CustomerSchema.virtual('password')
     });
 
 CustomerSchema.path('hashed_password').validate(function (v) {
-    if (this._password && this._password.length < 6) {
-        this.invalidate('password', 'Password must be at least 6 characters.');
+    if (this._password && this._password.length < 8) {
+        this.invalidate('password', 'Password must be at least 8 characters.');
     }
     if (this.isNew && !this._password) {
         this.invalidate('password', 'Password is required');
