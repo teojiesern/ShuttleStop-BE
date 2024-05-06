@@ -11,7 +11,6 @@ const getCustomer = async (req, res) => {
 };
 
 const createCustomer = async (req, res) => {
-    // name, email, password
     const customer = new Customer(req.body);
     try {
         await customer.save();
