@@ -2,19 +2,27 @@ const CiamService = require('../services/ciamService');
 
 const login = async (req, res) => {
     try {
-        // let user = await CiamService.authenticateCustomer(req.body.email, req.body.password);
+        const customer = await CiamService.findCustomer(req.body.email);
 
-        // if (!user) {
-        //     return res.status('401').json({
-        //         error: "User not found or password doesn't match",
-        //     });
-        // }
+        if (!customer) {
+            return res.status(404).json({
+                type: 'user-not-found',
+            });
+        }
+
+        const passwordMatch = await CiamService.authenticateCustomer(customer, req.body.password);
+
+        if (!passwordMatch) {
+            return res.status(401).json({
+                type: 'incorrect-password',
+            });
+        }
 
         // 1 day expiry
-        res.cookie('shuttle-token', '1', { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
+        res.cookie('shuttle-token', customer.customerId, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
 
         return res.json({
-            user: { name: 'hello' },
+            customer,
         });
     } catch (err) {
         console.log(err);

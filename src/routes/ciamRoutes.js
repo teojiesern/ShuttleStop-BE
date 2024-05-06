@@ -2,6 +2,6 @@ const express = require('express');
 const router = express.Router();
 const ciamController = require('../controllers/ciamController');
 
-router.post('/login', ciamController.login);
+router.route('/login').post(ciamController.login);
 
 module.exports = router;
