@@ -39,6 +39,10 @@ const ShopSchema = new mongoose.Schema({
         match: [/.+\@.+\..+/, 'Please fill a valid email address'],
         required: 'Email is required',
     },
+    phoneNumber: {
+        type: String,
+        required: 'Phone number is required',
+    },
     products: [
         {
             type: mongoose.Schema.Types.ObjectId,
