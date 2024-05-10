@@ -28,6 +28,7 @@ const createCustomer = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             type: 'unable-to-create-user',
+            message: err.message,
         });
     }
 };
