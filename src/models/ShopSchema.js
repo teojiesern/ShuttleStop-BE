@@ -6,30 +6,6 @@ const ShopSchema = new mongoose.Schema({
         trim: true,
         required: 'Name is required',
     },
-    description: {
-        type: String,
-        trim: true,
-    },
-    logo: {
-        data: Buffer,
-        contentType: String,
-    },
-    supportedCourierOption: {
-        type: [String],
-        enum: ['PosLaju', 'J&T Express', 'DHL', 'NinjaVan', 'SKYNET'],
-        validate: {
-            validator: (v) => v.length > 0,
-            message: 'At least one supported courier option is required',
-        },
-    },
-    supportedShippingMethod: {
-        type: [String],
-        enum: ['Standard Delivery', 'Self Pickup'],
-        validate: {
-            validator: (v) => v.length > 0,
-            message: 'At least one supported shipping method is required',
-        },
-    },
     pickupAddress: {
         type: String,
         required: 'Pickup address is required',
@@ -44,6 +20,32 @@ const ShopSchema = new mongoose.Schema({
     phoneNumber: {
         type: String,
         required: 'Phone number is required',
+    },
+    logoPath: {
+        type: String,
+        required: 'Logo is required',
+    },
+    description: {
+        type: String,
+        trim: true,
+    },
+    supportedCourierOption: {
+        type: [String],
+        enum: ['PosLaju', 'J&T Express', 'DHL', 'NinjaVan', 'SKYNET'],
+        default: ['PosLaju', 'J&T Express', 'DHL'],
+        validate: {
+            validator: (v) => v.length > 0,
+            message: 'At least one supported courier option is required',
+        },
+    },
+    supportedShippingMethod: {
+        type: [String],
+        enum: ['Standard Delivery', 'Self Pickup'],
+        default: ['Standard Delivery'],
+        validate: {
+            validator: (v) => v.length > 0,
+            message: 'At least one supported shipping method is required',
+        },
     },
     products: [
         {
