@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 const SellerSchema = new mongoose.Schema({
+    sellerId: {
+        type: String,
+        default: uuidv4,
+        unique: true,
+    },
     name: {
         type: String,
         trim: true,
