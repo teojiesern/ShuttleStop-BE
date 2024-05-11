@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// NOTE: Cart Item are only created when the user places the order, not when the user adds the product to the cart.
+// NOTE: Cart Item should never be a standalone
 const CartItemSchema = new mongoose.Schema({
     product: { type: mongoose.Schema.ObjectId, ref: 'Product' },
     quantity: Number,
@@ -10,7 +10,11 @@ const CartItemSchema = new mongoose.Schema({
         default: 'Not processed',
         enum: ['To Ship', 'Shipped', 'Completed'],
     },
+    trackingNumber: {
+        type: String,
+        default: () => Math.floor(100000 + Math.random() * 900000), // 6 digit tracking number
+        unique: true,
+    },
 });
 
-const CartItem = mongoose.model('CartItem', CartItemSchema);
-module.exports = CartItem;
+module.exports = CartItemSchema;

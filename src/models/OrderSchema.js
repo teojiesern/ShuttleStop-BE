@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
+const CartItemSchema = require('./CartItemSchema');
+const { v4: uuidv4 } = require('uuid');
 
 const OrderSchema = new mongoose.Schema({
-    products: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'CartItem',
-        },
-    ],
+    orderId: {
+        type: String,
+        unique: true,
+        default: uuidv4,
+    },
+    products: [CartItemSchema],
     customer_name: {
         type: String,
         trim: true,
@@ -19,11 +21,18 @@ const OrderSchema = new mongoose.Schema({
         required: 'Email is required',
     },
     delivery_address: {
-        street: { type: String, required: 'Street is required' },
-        city: { type: String, required: 'City is required' },
-        state: { type: String },
-        zipcode: { type: String, required: 'Zip Code is required' },
-        country: { type: String, required: 'Country is required' },
+        type: String,
+        required: 'Delivery address is required',
+    },
+    shippingOption: {
+        type: String,
+        enum: ['Standard Delivery', 'Express Delivery'],
+        required: 'Shipping option is required',
+    },
+    courierOption: {
+        type: String,
+        enum: ['PosLaju', 'J&T Express', 'DHL', 'NinjaVan', 'SKYNET'],
+        required: 'Courier option is required',
     },
     updated: Date,
     created: {
