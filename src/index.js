@@ -26,6 +26,9 @@ const ciamRoutes = require('./routes/ciamRoutes');
 
 app.use('/customer-service', customerRoutes);
 app.use('/authentication-service', ciamRoutes);
+app.use('/seller-service', ciamRoutes);
+app.use('/marketing-service', ciamRoutes);
+app.use('/checkout-service', ciamRoutes);
 
 // Start the server
 app.listen(config.port, () => {
