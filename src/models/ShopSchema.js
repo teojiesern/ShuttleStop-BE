@@ -14,15 +14,17 @@ const ShopSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String,
     },
-    supportedStandardDelivery: {
+    supportedCourierOption: {
         type: [String],
+        enum: ['PosLaju', 'J&T Express', 'DHL', 'NinjaVan', 'SKYNET'],
         validate: {
             validator: (v) => v.length > 0,
-            message: 'At least one supported standard delivery is required',
+            message: 'At least one supported courier option is required',
         },
     },
     supportedShippingMethod: {
         type: [String],
+        enum: ['Standard Delivery', 'Self Pickup'],
         validate: {
             validator: (v) => v.length > 0,
             message: 'At least one supported shipping method is required',
