@@ -20,6 +20,9 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+// serve assets
+app.use('/assets', express.static('uploads'));
+
 // region routes
 const customerRoutes = require('./routes/customerRoutes');
 const ciamRoutes = require('./routes/ciamRoutes');
