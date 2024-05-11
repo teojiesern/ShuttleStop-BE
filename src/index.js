@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // serve assets
-app.use('/assets', express.static('uploads'));
+app.use('/shuttleStop-assets', express.static('uploads'));
 
 // region routes
 const customerRoutes = require('./routes/customerRoutes');
