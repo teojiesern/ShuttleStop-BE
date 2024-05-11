@@ -23,12 +23,15 @@ app.use(cookieParser());
 // region routes
 const customerRoutes = require('./routes/customerRoutes');
 const ciamRoutes = require('./routes/ciamRoutes');
+const sellerRoutes = require('./routes/sellerRoutes');
+const marketingRoutes = require('./routes/marketingRoutes');
+const checkoutRoutes = require('./routes/checkoutRoutes');
 
 app.use('/customer-service', customerRoutes);
 app.use('/authentication-service', ciamRoutes);
-app.use('/seller-service', ciamRoutes);
-app.use('/marketing-service', ciamRoutes);
-app.use('/checkout-service', ciamRoutes);
+app.use('/seller-service', sellerRoutes);
+app.use('/marketing-service', marketingRoutes);
+app.use('/checkout-service', checkoutRoutes);
 
 // Start the server
 app.listen(config.port, () => {
