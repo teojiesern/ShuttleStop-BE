@@ -12,7 +12,13 @@ const getCustomerByEmail = async (email) => {
     return Customer;
 };
 
+const updateCustomer = async (customerId, data) => {
+    const updatedCustomer = await CustomerModel.findOneAndUpdate({ customerId }, data, { new: true });
+    return updatedCustomer;
+};
+
 module.exports = {
     getCustomerById,
     getCustomerByEmail,
+    updateCustomer,
 };

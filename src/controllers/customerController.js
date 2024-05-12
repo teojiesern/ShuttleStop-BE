@@ -33,7 +33,28 @@ const createCustomer = async (req, res) => {
     }
 };
 
+const updateCustomer = async (req, res) => {
+    try {
+        const customerId = req.cookies['shuttle-token'];
+        const customer = await customerService.getCustomerById(customerId);
+
+        if (!customer) {
+            return res.status(404).json({
+                type: 'user-not-found',
+            });
+        }
+
+        const updatedCustomer = await customerService.updateCustomer(customerId, req.body);
+
+        res.json(updatedCustomer);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ type: 'internal-server-error', message: error.message });
+    }
+};
+
 module.exports = {
     getCustomer,
     createCustomer,
+    updateCustomer,
 };
