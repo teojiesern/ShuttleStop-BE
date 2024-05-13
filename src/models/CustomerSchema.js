@@ -13,11 +13,6 @@ const CustomerSchema = new mongoose.Schema({
         trim: true,
         required: 'username is required',
     },
-    name: {
-        type: String,
-        trim: true,
-        default: '',
-    },
     email: {
         type: String,
         trim: true,
