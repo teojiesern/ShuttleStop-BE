@@ -18,6 +18,7 @@ const registerSeller = async (req, res) => {
     const seller = new Seller({
         name: sellerName,
         icNumber: sellerIcNumber,
+        customerId: req.cookies['shuttle-token'],
     });
 
     const shop = registerShop({

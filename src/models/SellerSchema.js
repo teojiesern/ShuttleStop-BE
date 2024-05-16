@@ -7,6 +7,11 @@ const SellerSchema = new mongoose.Schema({
         default: uuidv4,
         unique: true,
     },
+    customerId: {
+        type: String,
+        ref: 'Customer',
+        required: 'Customer ID reference is required',
+    },
     name: {
         type: String,
         trim: true,
