@@ -36,6 +36,8 @@ const registerSeller = async (req, res) => {
         await shop.save();
         return res.status(200).json({
             message: 'Successfully signed up as seller!',
+            seller,
+            shop,
         });
     } catch (err) {
         return res.status(500).json({

@@ -29,7 +29,7 @@ const ShopSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    supportedCourierOption: {
+    shopSupportedCourierOption: {
         type: [String],
         enum: ['PosLaju', 'J&T Express', 'DHL', 'NinjaVan', 'SKYNET'],
         default: ['PosLaju', 'J&T Express', 'DHL'],
@@ -38,13 +38,22 @@ const ShopSchema = new mongoose.Schema({
             message: 'At least one supported courier option is required',
         },
     },
-    supportedShippingMethod: {
+    shopSupportedShippingOption: {
         type: [String],
         enum: ['Standard Delivery', 'Self Pickup'],
         default: ['Standard Delivery'],
         validate: {
             validator: (v) => v.length > 0,
-            message: 'At least one supported shipping method is required',
+            message: 'At least one supported shipping option is required',
+        },
+    },
+    shopSupportedPaymentOption: {
+        type: [String],
+        enum: ['Online Banking', 'Cash on Delivery'],
+        default: ['Online Banking'],
+        validate: {
+            validator: (v) => v.length > 0,
+            message: 'At least one supported payment option is required',
         },
     },
     products: [
