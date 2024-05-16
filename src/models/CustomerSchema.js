@@ -8,10 +8,10 @@ const CustomerSchema = new mongoose.Schema({
         default: uuidv4,
         unique: true,
     },
-    name: {
+    username: {
         type: String,
         trim: true,
-        required: 'Name is required',
+        required: 'username is required',
     },
     email: {
         type: String,
@@ -28,6 +28,22 @@ const CustomerSchema = new mongoose.Schema({
     seller: {
         type: Boolean,
         default: false,
+    },
+    phoneNo: {
+        type: String,
+        default: '',
+    },
+    gender: {
+        type: String,
+        default: '',
+    },
+    birthday: {
+        type: Date,
+        default: '',
+    },
+    address: {
+        type: String,
+        default: '',
     },
 });
 
