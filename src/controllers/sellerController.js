@@ -1,6 +1,8 @@
 const Shop = require('../models/ShopSchema');
 const Seller = require('../models/SellerSchema');
 
+const CustomerService = require('../services/customerService');
+
 const registerShop = ({ shop, logoPath, owner }) => {
     const shopInformation = {
         ...shop,
@@ -35,6 +37,9 @@ const registerSeller = async (req, res) => {
     try {
         await seller.save();
         await shop.save();
+
+        await CustomerService.updateCustomer(req.cookies['shuttle-token'], { seller: true });
+
         return res.status(200).json({
             message: 'Successfully signed up as seller!',
             seller,
