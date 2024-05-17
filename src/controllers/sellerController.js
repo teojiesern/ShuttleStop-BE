@@ -1,6 +1,7 @@
 const Shop = require('../models/ShopSchema');
 const Seller = require('../models/SellerSchema');
 
+const SellerService = require('../services/sellerService');
 const CustomerService = require('../services/customerService');
 
 const registerShop = ({ shop, logoPath, owner }) => {
@@ -53,6 +54,22 @@ const registerSeller = async (req, res) => {
     }
 };
 
+const getSellerInformation = async (req, res) => {
+    try {
+        const seller = await SellerService.getSellerInformation(req.cookies['shuttle-token']);
+
+        return res.status(200).json({
+            seller,
+        });
+    } catch (err) {
+        return res.status(500).json({
+            type: 'unable-to-get-seller-information',
+            message: err.message,
+        });
+    }
+};
+
 module.exports = {
     registerSeller,
+    getSellerInformation,
 };
