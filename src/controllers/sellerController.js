@@ -69,7 +69,23 @@ const getSellerInformation = async (req, res) => {
     }
 };
 
+const getShopInformation = async (req, res) => {
+    try {
+        const shop = await SellerService.getShopInformation(req.body.sellerId);
+
+        return res.status(200).json({
+            shop,
+        });
+    } catch (err) {
+        return res.status(500).json({
+            type: 'unable-to-get-shop-information',
+            message: err.message,
+        });
+    }
+};
+
 module.exports = {
     registerSeller,
     getSellerInformation,
+    getShopInformation,
 };
