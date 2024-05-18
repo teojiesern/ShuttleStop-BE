@@ -71,7 +71,7 @@ const getSellerInformation = async (req, res) => {
 
 const getShopInformation = async (req, res) => {
     try {
-        const shop = await SellerService.getShopInformation(req.body.sellerId);
+        const shop = await SellerService.getShopInformation(req.params.sellerId);
 
         return res.status(200).json({
             shop,

@@ -6,7 +6,7 @@ const { uploadSingle } = require('../middleware/fileMiddleware');
 
 // GET
 router.route('/information').get(sellerController.getSellerInformation);
-router.route('/shop/information').get(sellerController.getShopInformation);
+router.route('/shop/:sellerId').get(sellerController.getShopInformation);
 
 // POST
 router.route('/signup').post(uploadSingle, sellerController.registerSeller);
