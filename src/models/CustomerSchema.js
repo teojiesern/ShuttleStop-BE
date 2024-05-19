@@ -42,8 +42,26 @@ const CustomerSchema = new mongoose.Schema({
         default: '',
     },
     address: {
-        type: String,
-        default: '',
+        street: {
+            type: String,
+            default: '',
+        },
+        city: {
+            type: String,
+            default: '',
+        },
+        postcode: {
+            type: String,
+            default: '',
+        },
+        country: {
+            type: String,
+            default: '',
+        },
+        state: {
+            type: String,
+            default: '',
+        },
     },
 });
 
