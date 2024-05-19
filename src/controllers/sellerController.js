@@ -68,14 +68,43 @@ const registerSeller = async (req, res) => {
 
 const addNewProduct = async (req, res) => {
     try {
-        const { sellerId, payload } = req.body;
-        const product = new Product(payload);
+        const { sellerId, name, category, brands, productDescription, variants } = req.body;
+
+        const thumbnailImage = req.files['thumbnailImage'][0].path;
+
+        const productImages = Object.keys(req.files)
+            .filter((fieldName) => fieldName !== 'thumbnailImage')
+            .flatMap((fieldName) => req.files[fieldName].map((file) => file.path));
+
+        const parsedVariants = JSON.parse(variants);
+
+        const product = new Product({
+            name,
+            category,
+            brands,
+            thumbnailImage,
+            productImages,
+            productDescription,
+            variants: parsedVariants,
+        });
         await product.save();
-        await SellerService.updateShopInformation(sellerId, { $push: { products: product.productId } });
+
+        // Puts newly added product to the top of the list
+        await SellerService.updateShopInformation(sellerId, {
+            $push: {
+                products: {
+                    $each: [product.productId],
+                    $position: 0,
+                },
+            },
+        });
+        return res.status(200).json({
+            message: 'Successfully added a new product!',
+        });
     } catch (error) {
         return res.status(500).json({
             type: 'unable-to-add-new-product',
-            message: err.message,
+            message: error.message,
         });
     }
 };

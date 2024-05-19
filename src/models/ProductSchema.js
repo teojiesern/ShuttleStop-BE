@@ -20,54 +20,49 @@ const VariantSchema = new mongoose.Schema({
     },
 });
 
-const ProductSchema = mongoose.Schema(
-    {
-        productId: {
-            type: String,
-            default: uuidv4,
-            unique: true,
-        },
-        name: {
-            type: String,
-            required: [true, 'Please enter product name'],
-        },
-        category: {
-            type: String,
-            enum: ['RACQUETS', 'FOOTWEARS', 'APPARELS', 'BAGS', 'SHUTTLECOCKS', 'ACCESSORIES'],
-            required: 'Category is required',
-        },
-        brands: {
-            type: String,
-            enum: ['YONEX', 'LI_NING', 'VICTOR', 'ASICS', 'APACS', 'FZ_FORZA', 'KAWASAKI'],
-            required: 'Brand is required',
-        },
-        thumbnailImage: {
-            type: String,
-            required: 'Thumbnail image is required',
-        },
-        productImages: {
-            type: [String],
-            validate: {
-                validator: (v) => v.length > 0,
-                message: 'At least one product image is required',
-            },
-        },
-        productDescription: {
-            type: String,
-            required: 'Product description is required',
-        },
-        variants: {
-            type: [VariantSchema],
-            validate: {
-                validator: (v) => v.length > 0,
-                message: 'At least one product image is required',
-            },
+const ProductSchema = mongoose.Schema({
+    productId: {
+        type: String,
+        default: uuidv4,
+        unique: true,
+    },
+    name: {
+        type: String,
+        required: [true, 'Please enter product name'],
+    },
+    category: {
+        type: String,
+        enum: ['RACQUETS', 'FOOTWEARS', 'APPARELS', 'BAGS', 'SHUTTLECOCKS', 'ACCESSORIES'],
+        required: 'Category is required',
+    },
+    brands: {
+        type: String,
+        enum: ['YONEX', 'LI_NING', 'VICTOR', 'ASICS', 'APACS', 'FZ_FORZA', 'KAWASAKI'],
+        required: 'Brand is required',
+    },
+    thumbnailImage: {
+        type: String,
+        required: 'Thumbnail image is required',
+    },
+    productImages: {
+        type: [String],
+        validate: {
+            validator: (v) => v.length > 0,
+            message: 'At least one product image is required',
         },
     },
-    {
-        timestamps: true,
+    productDescription: {
+        type: String,
+        required: 'Product description is required',
     },
-);
+    variants: {
+        type: [VariantSchema],
+        validate: {
+            validator: (v) => v.length > 0,
+            message: 'At least one product image is required',
+        },
+    },
+});
 
 const Product = mongoose.model('Product', ProductSchema);
 
