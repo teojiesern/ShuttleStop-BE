@@ -3,6 +3,7 @@ const Seller = require('../models/SellerSchema');
 
 const SellerService = require('../services/sellerService');
 const CustomerService = require('../services/customerService');
+const Product = require('../models/ProductSchema');
 
 const registerShop = ({ shop, logoPath, owner }) => {
     const shopInformation = {
@@ -13,6 +14,17 @@ const registerShop = ({ shop, logoPath, owner }) => {
 
     const shopInstance = new Shop(shopInformation);
     return shopInstance;
+};
+
+const updateShop = async (req, res) => {
+    try {
+        const { sellerId, ...payload } = req.body;
+        const updatedShop = await SellerService.updateShopInformation(sellerId, payload);
+
+        res.json(updatedShop);
+    } catch (error) {
+        res.status(500).json({ type: 'internal-server-error', message: error.message });
+    }
 };
 
 const registerSeller = async (req, res) => {
@@ -54,6 +66,18 @@ const registerSeller = async (req, res) => {
     }
 };
 
+const addNewProduct = async (req, res) => {
+    try {
+        const product = new Product(req.body);
+        await product.save();
+    } catch (error) {
+        return res.status(500).json({
+            type: 'unable-to-add-new-product',
+            message: err.message,
+        });
+    }
+};
+
 const getSellerInformation = async (req, res) => {
     try {
         const seller = await SellerService.getSellerInformation(req.cookies['shuttle-token']);
@@ -86,6 +110,8 @@ const getShopInformation = async (req, res) => {
 
 module.exports = {
     registerSeller,
+    updateShop,
+    addNewProduct,
     getSellerInformation,
     getShopInformation,
 };

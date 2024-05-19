@@ -11,4 +11,7 @@ router.route('/shop/:sellerId').get(sellerController.getShopInformation);
 // POST
 router.route('/signup').post(uploadSingle, sellerController.registerSeller);
 
+// PATCH
+router.route('/update-shop').patch(sellerController.updateShop);
+
 module.exports = router;
