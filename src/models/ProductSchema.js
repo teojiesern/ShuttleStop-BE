@@ -12,6 +12,7 @@ const VariantSchema = new mongoose.Schema({
     },
     totalSales: {
         type: Number,
+        default: 0,
         required: true,
     },
     price: {
