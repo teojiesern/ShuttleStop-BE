@@ -58,7 +58,7 @@ const ShopSchema = new mongoose.Schema({
     },
     products: [
         {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             ref: 'Product',
         },
     ],

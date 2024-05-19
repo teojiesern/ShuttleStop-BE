@@ -68,8 +68,10 @@ const registerSeller = async (req, res) => {
 
 const addNewProduct = async (req, res) => {
     try {
-        const product = new Product(req.body);
+        const { sellerId, payload } = req.body;
+        const product = new Product(payload);
         await product.save();
+        await SellerService.updateShopInformation(sellerId, { $push: { products: product.productId } });
     } catch (error) {
         return res.status(500).json({
             type: 'unable-to-add-new-product',

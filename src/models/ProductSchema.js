@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 const VariantSchema = new mongoose.Schema({
     color: {
@@ -21,6 +22,11 @@ const VariantSchema = new mongoose.Schema({
 
 const ProductSchema = mongoose.Schema(
     {
+        productId: {
+            type: String,
+            default: uuidv4,
+            unique: true,
+        },
         name: {
             type: String,
             required: [true, 'Please enter product name'],
