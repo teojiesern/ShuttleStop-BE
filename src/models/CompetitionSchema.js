@@ -17,7 +17,7 @@ const CompetitionSchema = new mongoose.Schema({
         trim: true,
     },
     fee: {
-        type: String,
+        type: Number,
         required: 'Fee is required',
         min: 0,
     },
@@ -26,7 +26,7 @@ const CompetitionSchema = new mongoose.Schema({
         required: 'Deadline is required',
     },
     prize: {
-        type: String,
+        type: Number,
         required: 'Prize is required',
         trim: true,
     },
