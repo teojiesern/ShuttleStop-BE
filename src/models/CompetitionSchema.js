@@ -8,7 +8,7 @@ const CompetitionSchema = new mongoose.Schema({
         trim: true,
     },
     date: {
-        type: String,
+        type: Date,
         required: 'Date is required',
     },
     state: {
@@ -22,7 +22,7 @@ const CompetitionSchema = new mongoose.Schema({
         min: 0,
     },
     deadline: {
-        type: String,
+        type: Date,
         required: 'Deadline is required',
     },
     prize: {
