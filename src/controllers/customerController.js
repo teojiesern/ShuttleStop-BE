@@ -53,8 +53,24 @@ const updateCustomer = async (req, res) => {
     }
 };
 
+const getShop = async (req, res) => {
+    try {
+        const shop = await customerService.getShopByProductId(req.params.productId);
+        if (!shop) {
+            return res.status(404).json({
+                type: 'shop-not-found',
+            });
+        }
+
+        res.json(shop);
+    } catch (error) {
+        res.status(500).json({ type: 'internal-server-error' });
+    }
+};
+
 module.exports = {
     getCustomer,
     createCustomer,
     updateCustomer,
+    getShop,
 };

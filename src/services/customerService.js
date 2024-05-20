@@ -1,4 +1,5 @@
 const CustomerModel = require('../models/CustomerSchema');
+const ShopModel = require('../models/ShopSchema');
 
 const getCustomerById = async (customerId) => {
     const Customer = await CustomerModel.findOne({ customerId });
@@ -17,8 +18,15 @@ const updateCustomer = async (customerId, data) => {
     return updatedCustomer;
 };
 
+const getShopByProductId = async (productId) => {
+    const Shop = await ShopModel.findOne({ products: productId });
+
+    return Shop;
+};
+
 module.exports = {
     getCustomerById,
     getCustomerByEmail,
     updateCustomer,
+    getShopByProductId,
 };
