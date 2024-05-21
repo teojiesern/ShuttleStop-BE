@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 
 const CompetitionSchema = new mongoose.Schema({
+    competitionId: {
+        type: String,
+        default: uuidv4,
+        unique: true,
+    },
     name: {
         type: String,
         required: 'Competition name is required',
