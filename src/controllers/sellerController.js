@@ -3,6 +3,7 @@ const Seller = require('../models/SellerSchema');
 
 const SellerService = require('../services/sellerService');
 const CustomerService = require('../services/customerService');
+const Product = require('../models/ProductSchema');
 
 const registerShop = ({ shop, logoPath, owner }) => {
     const shopInformation = {
@@ -13,6 +14,17 @@ const registerShop = ({ shop, logoPath, owner }) => {
 
     const shopInstance = new Shop(shopInformation);
     return shopInstance;
+};
+
+const updateShop = async (req, res) => {
+    try {
+        const { sellerId, ...payload } = req.body;
+        const updatedShop = await SellerService.updateShopInformation(sellerId, payload);
+
+        res.json(updatedShop);
+    } catch (error) {
+        res.status(500).json({ type: 'internal-server-error', message: error.message });
+    }
 };
 
 const registerSeller = async (req, res) => {
@@ -54,6 +66,49 @@ const registerSeller = async (req, res) => {
     }
 };
 
+const addNewProduct = async (req, res) => {
+    try {
+        const { sellerId, name, category, brands, productDescription, variants } = req.body;
+
+        const thumbnailImage = req.files['thumbnailImage'][0].path;
+
+        const productImages = Object.keys(req.files)
+            .filter((fieldName) => fieldName !== 'thumbnailImage')
+            .flatMap((fieldName) => req.files[fieldName].map((file) => file.path));
+
+        const parsedVariants = JSON.parse(variants);
+
+        const product = new Product({
+            name,
+            category,
+            brands,
+            thumbnailImage,
+            productImages,
+            productDescription,
+            variants: parsedVariants,
+        });
+        await product.save();
+
+        // Puts newly added product to the top of the list
+        await SellerService.updateShopInformation(sellerId, {
+            $push: {
+                products: {
+                    $each: [product.productId],
+                    $position: 0,
+                },
+            },
+        });
+        return res.status(200).json({
+            message: 'Successfully added a new product!',
+        });
+    } catch (error) {
+        return res.status(500).json({
+            type: 'unable-to-add-new-product',
+            message: error.message,
+        });
+    }
+};
+
 const getSellerInformation = async (req, res) => {
     try {
         const seller = await SellerService.getSellerInformation(req.cookies['shuttle-token']);
@@ -86,6 +141,8 @@ const getShopInformation = async (req, res) => {
 
 module.exports = {
     registerSeller,
+    updateShop,
+    addNewProduct,
     getSellerInformation,
     getShopInformation,
 };

@@ -13,4 +13,7 @@ router.route('/coach-edit/:coachId').post(uploadSingle, marketingController.upda
 router.route('/coach-profile/:coachId').get(marketingController.getCoachDetails);
 router.route('/coach-rating/:coachId').post(marketingController.updateRating);
 
+router.get('/competitions', marketingController.getCompetitions);
+router.post('/competitions', marketingController.addCompetition);
+
 module.exports = router;

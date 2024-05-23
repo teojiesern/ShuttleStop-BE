@@ -1,8 +1,27 @@
+const MarketingService = require('../services/marketingService');
 const marketingService = require('../services/marketingService');
 const customerService = require('../services/customerService');
-
 const Coach = require('../models/CoachSchema');
+// Controller function to get competitions
+const getCompetitions = async (req, res) => {
+    try {
+        const competitions = await MarketingService.getAllCompetitions();
+        return res.json(competitions);
+    } catch (error) {
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
+// Controller function to add a new competition
+const addCompetition = async (req, res) => {
+    try {
+        const newCompetition = req.body;
+        const createdCompetition = await MarketingService.createCompetition(newCompetition);
+        return res.status(201).json(createdCompetition);
+    } catch (error) {
+        return res.status(500).json({ error });
+    }
+};
 const getAllCoachDetails = async (req, res) => {
     try {
         const coach = await marketingService.getAllCoach();
@@ -182,4 +201,12 @@ const updateCoach = async (req, res) => {
 //     }
 // };
 
-module.exports = { getAllCoachDetails, getCoachDetails, registerCoach, updateCoach, updateRating };
+module.exports = {
+    getAllCoachDetails,
+    getCoachDetails,
+    registerCoach,
+    updateCoach,
+    updateRating,
+    getCompetitions,
+    addCompetition,
+};

@@ -1,4 +1,5 @@
 const CoachModel = require('../models/CoachSchema');
+const Competition = require('../models/CompetitionSchema');
 
 const getAllCoach = async () => {
     const Coach = await CoachModel.find({});
@@ -44,7 +45,20 @@ const updateRating = async (req, data) => {
 
     return updatedCoach;
 };
+
+// Service function to get all competitions
+const getAllCompetitions = async () => {
+    return await Competition.find();
+};
+
+// Service function to create a new competition
+const createCompetition = async (competitionData) => {
+    return await Competition.create(competitionData);
+};
+
 module.exports = {
+    getAllCompetitions,
+    createCompetition,
     getAllCoach,
     getCoachByID,
     updateCoach,
