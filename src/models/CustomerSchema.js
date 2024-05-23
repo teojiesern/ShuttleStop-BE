@@ -67,6 +67,10 @@ const CustomerSchema = new mongoose.Schema({
             default: '',
         },
     },
+    profileImgPath: {
+        type: String,
+        default: '',
+    },
 });
 
 CustomerSchema.virtual('password')

@@ -43,6 +43,13 @@ const updateCustomer = async (req, res) => {
                 type: 'user-not-found',
             });
         }
+        if (req.file) {
+            req.body.profileImgPath = req.file.path;
+        }
+
+        if (typeof req.body.address === 'string') {
+            req.body.address = JSON.parse(req.body.address);
+        }
 
         const updatedCustomer = await customerService.updateCustomer(customerId, req.body);
 
