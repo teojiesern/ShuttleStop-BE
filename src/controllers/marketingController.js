@@ -60,7 +60,7 @@ const registerCoach = async (req, res) => {
         const coachData = req.body;
 
         if (req.file) {
-            coachData.file = req.file.coach.path;
+            coachData.file = req.file.path;
         }
         const coach = new Coach(coachData);
 
