@@ -3,7 +3,9 @@ const Seller = require('../models/SellerSchema');
 
 const SellerService = require('../services/sellerService');
 const CustomerService = require('../services/customerService');
+const ProductService = require('../services/productService');
 const Product = require('../models/ProductSchema');
+const { deleteFile } = require('../middleware/fileMiddleware');
 
 const registerShop = ({ shop, logoPath, owner }) => {
     const shopInformation = {
@@ -14,17 +16,6 @@ const registerShop = ({ shop, logoPath, owner }) => {
 
     const shopInstance = new Shop(shopInformation);
     return shopInstance;
-};
-
-const updateShop = async (req, res) => {
-    try {
-        const { sellerId, ...payload } = req.body;
-        const updatedShop = await SellerService.updateShopInformation(sellerId, payload);
-
-        res.json(updatedShop);
-    } catch (error) {
-        res.status(500).json({ type: 'internal-server-error', message: error.message });
-    }
 };
 
 const registerSeller = async (req, res) => {
@@ -66,6 +57,27 @@ const registerSeller = async (req, res) => {
     }
 };
 
+const updateShop = async (req, res) => {
+    try {
+        const { sellerId, file, ...payload } = req.body;
+
+        if (req.file) {
+            const shop = await SellerService.getShopInformation(sellerId);
+
+            if (shop.logoPath) {
+                deleteFile(shop.logoPath);
+            }
+            payload.logoPath = req.file.path;
+        }
+
+        const updatedShop = await SellerService.updateShopInformation(sellerId, payload);
+
+        res.json(updatedShop);
+    } catch (error) {
+        res.status(500).json({ type: 'internal-server-error', message: error.message });
+    }
+};
+
 const addNewProduct = async (req, res) => {
     try {
         const { sellerId, name, category, brands, productDescription, variants } = req.body;
@@ -100,6 +112,7 @@ const addNewProduct = async (req, res) => {
         });
         return res.status(200).json({
             message: 'Successfully added a new product!',
+            productId: product.productId,
         });
     } catch (error) {
         return res.status(500).json({
@@ -139,10 +152,22 @@ const getShopInformation = async (req, res) => {
     }
 };
 
+const getShopProducts = async (req, res) => {
+    try {
+        const productIds = req.body.productIds;
+        const products = await ProductService.getProductsByIds(productIds);
+
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ type: 'internal-server-error', message: error.message });
+    }
+};
+
 module.exports = {
     registerSeller,
     updateShop,
     addNewProduct,
     getSellerInformation,
     getShopInformation,
+    getShopProducts,
 };
