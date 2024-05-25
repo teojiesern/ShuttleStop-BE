@@ -2,7 +2,6 @@ const Product = require('../models/ProductSchema');
 
 const getAllProducts = async () => {
     const products = await Product.find({});
-    console.log(products);
     return products;
 };
 
