@@ -63,6 +63,14 @@ const ProductSchema = mongoose.Schema({
             message: 'At least one product image is required',
         },
     },
+    rate: {
+        type: Number,
+        default: 0,
+    },
+    numReviews: {
+        type: Number,
+        default: 0,
+    },
 });
 
 const Product = mongoose.model('Product', ProductSchema);
