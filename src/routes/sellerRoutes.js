@@ -20,6 +20,7 @@ router.route('/add-product').post(
     ]),
     sellerController.addNewProduct,
 );
+router.route('/products').post(sellerController.getShopProducts);
 
 // PATCH
 router.route('/update-shop').patch(uploadSingle, sellerController.updateShop);

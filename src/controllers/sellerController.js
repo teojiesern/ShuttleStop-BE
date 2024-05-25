@@ -3,6 +3,7 @@ const Seller = require('../models/SellerSchema');
 
 const SellerService = require('../services/sellerService');
 const CustomerService = require('../services/customerService');
+const ProductService = require('../services/productService');
 const Product = require('../models/ProductSchema');
 const { deleteFile } = require('../middleware/fileMiddleware');
 
@@ -151,10 +152,22 @@ const getShopInformation = async (req, res) => {
     }
 };
 
+const getShopProducts = async (req, res) => {
+    try {
+        const productIds = req.body.productIds;
+        const products = await ProductService.getProductsByIds(productIds);
+
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ type: 'internal-server-error', message: error.message });
+    }
+};
+
 module.exports = {
     registerSeller,
     updateShop,
     addNewProduct,
     getSellerInformation,
     getShopInformation,
+    getShopProducts,
 };
