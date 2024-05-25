@@ -1,5 +1,7 @@
 const customerService = require('../services/customerService');
+const productService = require('../services/productService');
 const Customer = require('../models/CustomerSchema');
+const Product = require('../models/ProductSchema');
 
 const getCustomer = async (req, res) => {
     try {
@@ -60,6 +62,24 @@ const updateCustomer = async (req, res) => {
     }
 };
 
+const getAllProducts = async (req, res) => {
+    try {
+        const products = await productService.getAllProducts();
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getProductById = async (req, res) => {
+    try {
+        const product = await productService.getProductById(req.params.productId);
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 const getShop = async (req, res) => {
     try {
         const shop = await customerService.getShopByProductId(req.params.productId);
@@ -79,5 +99,7 @@ module.exports = {
     getCustomer,
     createCustomer,
     updateCustomer,
+    getAllProducts,
+    getProductById,
     getShop,
 };
