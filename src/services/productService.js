@@ -13,7 +13,12 @@ const getProductById = async (productId) => {
     return product;
 };
 
+const getProductsByIds = async (productIds) => {
+    return await Product.find({ productId: { $in: productIds } });
+};
+
 module.exports = {
     getAllProducts,
     getProductById,
+    getProductsByIds,
 };
