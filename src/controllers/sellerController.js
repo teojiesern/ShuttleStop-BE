@@ -4,6 +4,7 @@ const Seller = require('../models/SellerSchema');
 const SellerService = require('../services/sellerService');
 const CustomerService = require('../services/customerService');
 const Product = require('../models/ProductSchema');
+const { deleteFile } = require('../middleware/fileMiddleware');
 
 const registerShop = ({ shop, logoPath, owner }) => {
     const shopInformation = {
@@ -14,17 +15,6 @@ const registerShop = ({ shop, logoPath, owner }) => {
 
     const shopInstance = new Shop(shopInformation);
     return shopInstance;
-};
-
-const updateShop = async (req, res) => {
-    try {
-        const { sellerId, ...payload } = req.body;
-        const updatedShop = await SellerService.updateShopInformation(sellerId, payload);
-
-        res.json(updatedShop);
-    } catch (error) {
-        res.status(500).json({ type: 'internal-server-error', message: error.message });
-    }
 };
 
 const registerSeller = async (req, res) => {
@@ -63,6 +53,27 @@ const registerSeller = async (req, res) => {
             type: 'unable-to-register-as-seller',
             message: err.message,
         });
+    }
+};
+
+const updateShop = async (req, res) => {
+    try {
+        const { sellerId, file, ...payload } = req.body;
+
+        if (req.file) {
+            const shop = await SellerService.getShopInformation(sellerId);
+
+            if (shop.logoPath) {
+                deleteFile(shop.logoPath);
+            }
+            payload.logoPath = req.file.path;
+        }
+
+        const updatedShop = await SellerService.updateShopInformation(sellerId, payload);
+
+        res.json(updatedShop);
+    } catch (error) {
+        res.status(500).json({ type: 'internal-server-error', message: error.message });
     }
 };
 

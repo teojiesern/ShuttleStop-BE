@@ -22,6 +22,6 @@ router.route('/add-product').post(
 );
 
 // PATCH
-router.route('/update-shop').patch(sellerController.updateShop);
+router.route('/update-shop').patch(uploadSingle, sellerController.updateShop);
 
 module.exports = router;
