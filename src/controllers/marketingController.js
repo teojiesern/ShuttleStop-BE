@@ -1,7 +1,8 @@
 const MarketingService = require('../services/marketingService');
 const marketingService = require('../services/marketingService');
-const customerService = require('../services/customerService');
+
 const Coach = require('../models/CoachSchema');
+
 // Controller function to get competitions
 const getCompetitions = async (req, res) => {
     try {
@@ -59,24 +60,11 @@ const registerCoach = async (req, res) => {
         const coachData = req.body;
 
         if (req.file) {
-            coachData.file = req.file.coach.path;
+            coachData.file = req.file.path;
         }
         const coach = new Coach(coachData);
 
         await coach.save();
-
-        // const customerId = req.cookies['shuttle-token'];
-        // const customer = await customerService.getCustomerById(customerId);
-
-        // if (!customer) {
-        //     return res.status(404).json({
-        //         type: 'user-not-found',
-        //         message: 'User not found',
-        //     });
-        // }
-
-        // customer.coachId = coach.id;
-        // await customer.save();
 
         return res.status(200).json({
             message: 'Successfully registered new coach!',
@@ -170,36 +158,6 @@ const updateCoach = async (req, res) => {
         res.status(500).json({ type: 'internal-server-error', message: error.message });
     }
 };
-
-// const updateCoach = async (req, res) => {
-//     try {
-//         // const customerId = req.cookies['shuttle-token'];
-//         // const customer = await customerService.getCustomerById(customerId);
-//         // const profileCoachId = req.params.coachId; // Get the coachId of the coach profile being edited
-//         const coach = await marketingService.getCoachByID(req);
-
-//         if (!coach) {
-//             return res.status(404).json({
-//                 type: 'coach-not-found',
-//                 message: 'Coach not found',
-//             });
-//         }
-
-//         // if (customer.coachId !== profileCoachId) {
-//         //     return res.status(403).json({
-//         //         type: 'forbidden',
-//         //         message: 'You are not authorized to edit this coach profile',
-//         //     });
-//         // }
-
-//         const updatedCoach = await marketingService.updateCoach(req, req.body);
-
-//         res.json(updatedCoach);
-//     } catch (error) {
-//         console.error(error, 'coachnot updated');
-//         res.status(500).json({ type: 'internal-server-error', message: error.message });
-//     }
-// };
 
 module.exports = {
     getAllCoachDetails,

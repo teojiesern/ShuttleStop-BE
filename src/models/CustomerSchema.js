@@ -8,10 +8,6 @@ const CustomerSchema = new mongoose.Schema({
         default: uuidv4,
         unique: true,
     },
-    coachId: {
-        type: String,
-        default: '',
-    },
     username: {
         type: String,
         trim: true,
