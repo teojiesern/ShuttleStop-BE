@@ -80,7 +80,7 @@ const updateShop = async (req, res) => {
 
 const addNewProduct = async (req, res) => {
     try {
-        const { sellerId, name, category, brands, productDescription, variants } = req.body;
+        const { sellerId, name, category, brand, productDescription, variants } = req.body;
 
         const thumbnailImage = req.files['thumbnailImage'][0].path;
 
@@ -93,7 +93,7 @@ const addNewProduct = async (req, res) => {
         const product = new Product({
             name,
             category,
-            brands,
+            brand,
             thumbnailImage,
             productImages,
             productDescription,

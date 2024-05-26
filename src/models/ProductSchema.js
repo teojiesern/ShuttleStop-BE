@@ -36,7 +36,7 @@ const ProductSchema = mongoose.Schema({
         enum: ['RACQUETS', 'FOOTWEARS', 'APPARELS', 'BAGS', 'SHUTTLECOCKS', 'ACCESSORIES'],
         required: 'Category is required',
     },
-    brands: {
+    brand: {
         type: String,
         enum: ['YONEX', 'LI_NING', 'VICTOR', 'ASICS', 'APACS', 'FZ_FORZA', 'KAWASAKI'],
         required: 'Brand is required',
