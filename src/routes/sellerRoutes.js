@@ -20,6 +20,16 @@ router.route('/add-product').post(
     ]),
     sellerController.addNewProduct,
 );
+router.route('/update-product').post(
+    uploadFields([
+        { name: 'thumbnailImage', maxCount: 1 },
+        { name: 'productImage1', maxCount: 1 },
+        { name: 'productImage2', maxCount: 1 },
+        { name: 'productImage3', maxCount: 1 },
+        { name: 'productImage4', maxCount: 1 },
+    ]),
+    sellerController.updateProduct,
+);
 router.route('/products').post(sellerController.getShopProducts);
 
 // PATCH

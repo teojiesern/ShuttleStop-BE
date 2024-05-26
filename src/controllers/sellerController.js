@@ -122,6 +122,53 @@ const addNewProduct = async (req, res) => {
     }
 };
 
+const updateProduct = async (req, res) => {
+    try {
+        const updateFields = {};
+        const { productId, name, category, brand, productDescription, variants } = req.body;
+
+        const product = await ProductService.getProductById(productId);
+
+        if (name) updateFields.name = name;
+        if (category) updateFields.category = category;
+        if (brand) updateFields.brand = brand;
+        if (productDescription) updateFields.productDescription = productDescription;
+        if (variants) updateFields.variants = JSON.parse(variants);
+
+        if (req.files) {
+            if (req.files['thumbnailImage']) {
+                if (product.thumbnailImage) {
+                    deleteFile(product.thumbnailImage);
+                }
+                updateFields.thumbnailImage = req.files['thumbnailImage'][0].path;
+            }
+
+            const productImages = Object.keys(req.files)
+                .filter((fieldName) => fieldName !== 'thumbnailImage')
+                .flatMap((fieldName) => req.files[fieldName].map((file) => file.path));
+
+            if (productImages.length > 0) {
+                const oldImages = product.productImages;
+                const imagesToDelete = oldImages.filter((img) => !productImages.includes(img));
+                imagesToDelete.forEach((img) => deleteFile(img));
+                updateFields.productImages = productImages;
+            }
+        }
+
+        const updatedProduct = await ProductService.updateProduct(productId, updateFields);
+
+        return res.status(200).json({
+            message: 'Successfully updated the product!',
+            updatedProduct,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            type: 'unable-to-update-product',
+            message: error.message,
+        });
+    }
+};
+
 const getSellerInformation = async (req, res) => {
     try {
         const seller = await SellerService.getSellerInformation(req.cookies['shuttle-token']);
@@ -167,6 +214,7 @@ module.exports = {
     registerSeller,
     updateShop,
     addNewProduct,
+    updateProduct,
     getSellerInformation,
     getShopInformation,
     getShopProducts,

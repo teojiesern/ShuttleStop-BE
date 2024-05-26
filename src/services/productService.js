@@ -17,8 +17,13 @@ const getProductsByIds = async (productIds) => {
     return await Product.find({ productId: { $in: productIds } });
 };
 
+const updateProduct = async (productId, productData) => {
+    return await Product.findOneAndUpdate({ productId }, productData, { new: true });
+};
+
 module.exports = {
     getAllProducts,
     getProductById,
     getProductsByIds,
+    updateProduct,
 };
