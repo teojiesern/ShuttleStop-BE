@@ -31,7 +31,8 @@ const OrderSchema = new mongoose.Schema({
     },
     courierOption: {
         type: String,
-        enum: ['PosLaju', 'J&T Express', 'DHL', 'NinjaVan', 'SKYNET'],
+        default: 'To Be Confirmed',
+        enum: ['PosLaju', 'J&T Express', 'DHL', 'NinjaVan', 'SKYNET', 'To Be Confirmed'],
         required: 'Courier option is required',
     },
     updated: Date,

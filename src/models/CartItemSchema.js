@@ -4,10 +4,13 @@ const mongoose = require('mongoose');
 const CartItemSchema = new mongoose.Schema({
     product: { type: mongoose.Schema.ObjectId, ref: 'Product' },
     quantity: Number,
+    selectedVariant: {
+        type: String,
+    },
     shop: { type: mongoose.Schema.ObjectId, ref: 'Shop' },
     status: {
         type: String,
-        default: 'Not processed',
+        default: 'To Ship',
         enum: ['To Ship', 'Shipped', 'Completed'],
     },
     trackingNumber: {
