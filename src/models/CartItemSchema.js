@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // NOTE: Cart Item should never be a standalone
 const CartItemSchema = new mongoose.Schema({
-    product: { type: mongoose.Schema.ObjectId, ref: 'Product' },
+    product: { type: String, ref: 'Product' },
     quantity: Number,
     selectedVariant: {
         type: String,

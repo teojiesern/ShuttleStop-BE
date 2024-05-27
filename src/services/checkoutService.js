@@ -14,10 +14,9 @@ const createOrder = async (customerId, groupedProduct, shippingOption) => {
             const { product, quantity, selectedVariant } = item;
 
             const shopId = new mongoose.Types.ObjectId(shop._id);
-            const productId = new mongoose.Types.ObjectId(product._id);
 
             const cartItemInstance = {
-                product: productId,
+                product: product.productId,
                 quantity: quantity,
                 selectedVariant: selectedVariant,
                 shop: shopId,
