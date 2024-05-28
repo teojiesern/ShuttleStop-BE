@@ -14,7 +14,7 @@ const getShopInformation = async (sellerId) => {
 };
 
 const updateShopInformation = async (sellerId, data) => {
-    const shop = Shop.findOneAndUpdate({ owner: sellerId }, data, { new: true });
+    const shop = await Shop.findOneAndUpdate({ owner: sellerId }, data, { new: true });
 
     return shop;
 };
