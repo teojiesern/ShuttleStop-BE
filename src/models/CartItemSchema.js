@@ -7,7 +7,7 @@ const CartItemSchema = new mongoose.Schema({
     selectedVariant: {
         type: String,
     },
-    shop: { type: mongoose.Schema.ObjectId, ref: 'Shop' },
+    shop: { type: String, ref: 'Shop' },
     status: {
         type: String,
         default: 'To Ship',
