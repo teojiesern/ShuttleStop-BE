@@ -198,6 +198,7 @@ const getShopProducts = async (req, res) => {
     try {
         const productIds = req.body.productIds;
         const products = await ProductService.getProductsByIds(productIds);
+        products.sort((a, b) => productIds.indexOf(a.productId) - productIds.indexOf(b.productId));
 
         res.json(products);
     } catch (error) {
