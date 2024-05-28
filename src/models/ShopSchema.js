@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 const ShopSchema = new mongoose.Schema({
+    shopId: {
+        type: String,
+        unique: true,
+        default: uuidv4,
+    },
     name: {
         type: String,
         trim: true,
