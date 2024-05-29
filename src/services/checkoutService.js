@@ -1,8 +1,31 @@
 const mongoose = require('mongoose');
 const Order = require('../models/OrderSchema');
+const Product = require('../models/ProductSchema');
 const customerService = require('../services/customerService');
+const productService = require('../services/productService');
 
-const createOrder = async (customerId, groupedProduct, shippingOption) => {
+const updateVariantSales = async (productId, selectedVariant, quantity) => {
+    const product = await productService.getProductById(productId);
+    try {
+        const variant = product.variants.find((v) => v.color === selectedVariant);
+
+        if (!variant) {
+            throw new Error('Variant not found');
+        }
+
+        variant.totalSales += quantity;
+        variant.totalStock -= quantity;
+
+        await product.save();
+
+        return product;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+const createOrder = async (customerId, groupedProduct, shippingOption, selectedPaymentMethod) => {
     const customer = await customerService.getCustomerById(customerId);
 
     const cartItems = [];
@@ -13,13 +36,13 @@ const createOrder = async (customerId, groupedProduct, shippingOption) => {
         for (const item of products) {
             const { product, quantity, selectedVariant } = item;
 
-            const shopId = new mongoose.Types.ObjectId(shop._id);
+            await updateVariantSales(product.productId, selectedVariant, quantity);
 
             const cartItemInstance = {
                 product: product.productId,
                 quantity: quantity,
                 selectedVariant: selectedVariant,
-                shop: shopId,
+                shop: shop.shopId,
             };
 
             cartItems.push(cartItemInstance);
@@ -52,6 +75,7 @@ const createOrder = async (customerId, groupedProduct, shippingOption) => {
         customer_email: customer.email,
         delivery_address: customerAddress,
         shippingOption: shippingMethod,
+        paymentMethod: selectedPaymentMethod,
         customer: customerId,
     });
 
