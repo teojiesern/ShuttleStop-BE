@@ -4,6 +4,7 @@ const Seller = require('../models/SellerSchema');
 const SellerService = require('../services/sellerService');
 const CustomerService = require('../services/customerService');
 const ProductService = require('../services/productService');
+const OrderService = require('../services/orderService');
 const Product = require('../models/ProductSchema');
 const { deleteFile } = require('../middleware/fileMiddleware');
 
@@ -206,6 +207,75 @@ const getShopProducts = async (req, res) => {
     }
 };
 
+const getToShipOrders = async (req, res) => {
+    try {
+        const { shopId } = req.params;
+
+        const allOrders = await OrderService.getAllOrders();
+        const orders = allOrders
+            .map((order) => {
+                const matchingProducts = order.products.filter(
+                    (product) => product.shop.toString() === shopId && product.status === 'To Ship',
+                );
+
+                if (matchingProducts.length > 0) {
+                    return { ...order._doc, products: matchingProducts };
+                }
+            })
+            .filter((order) => order !== undefined);
+
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ type: 'internal-server-error', message: error.message });
+    }
+};
+
+const getShippedOrders = async (req, res) => {
+    try {
+        const { shopId } = req.params;
+
+        const allOrders = await OrderService.getAllOrders();
+        const orders = allOrders
+            .map((order) => {
+                const matchingProducts = order.products.filter(
+                    (product) => product.shop.toString() === shopId && product.status === 'Shipped',
+                );
+
+                if (matchingProducts.length > 0) {
+                    return { ...order._doc, products: matchingProducts };
+                }
+            })
+            .filter((order) => order !== undefined);
+
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ type: 'internal-server-error', message: error.message });
+    }
+};
+
+const getCompletedOrders = async (req, res) => {
+    try {
+        const { shopId } = req.params;
+
+        const allOrders = await OrderService.getAllOrders();
+        const orders = allOrders
+            .map((order) => {
+                const matchingProducts = order.products.filter(
+                    (product) => product.shop.toString() === shopId && product.status === 'Completed',
+                );
+
+                if (matchingProducts.length > 0) {
+                    return { ...order._doc, products: matchingProducts };
+                }
+            })
+            .filter((order) => order !== undefined);
+
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ type: 'internal-server-error', message: error.message });
+    }
+};
+
 module.exports = {
     registerSeller,
     updateShop,
@@ -214,4 +284,7 @@ module.exports = {
     getSellerInformation,
     getShopInformation,
     getShopProducts,
+    getToShipOrders,
+    getShippedOrders,
+    getCompletedOrders,
 };
