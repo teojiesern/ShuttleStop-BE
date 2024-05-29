@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Order = require('../models/OrderSchema');
 const customerService = require('../services/customerService');
 
-const createOrder = async (customerId, groupedProduct, shippingOption) => {
+const createOrder = async (customerId, groupedProduct, shippingOption, selectedPaymentMethod) => {
     const customer = await customerService.getCustomerById(customerId);
 
     const cartItems = [];
@@ -50,6 +50,7 @@ const createOrder = async (customerId, groupedProduct, shippingOption) => {
         customer_email: customer.email,
         delivery_address: customerAddress,
         shippingOption: shippingMethod,
+        paymentMethod: selectedPaymentMethod,
         customer: customerId,
     });
 

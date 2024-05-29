@@ -29,11 +29,10 @@ const OrderSchema = new mongoose.Schema({
         enum: ['Standard Delivery', 'Express Delivery'],
         required: 'Shipping option is required',
     },
-    courierOption: {
+    paymentMethod: {
         type: String,
-        default: 'To Be Confirmed',
-        enum: ['PosLaju', 'J&T Express', 'DHL', 'NinjaVan', 'SKYNET', 'To Be Confirmed'],
-        required: 'Courier option is required',
+        enum: ['COD', 'Online Banking'],
+        required: 'Payment method is required',
     },
     updated: Date,
     created: {
