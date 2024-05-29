@@ -212,17 +212,22 @@ const getToShipOrders = async (req, res) => {
         const { shopId } = req.params;
 
         const allOrders = await OrderService.getAllOrders();
-        const orders = allOrders
-            .map((order) => {
-                const matchingProducts = order.products.filter(
-                    (product) => product.shop.toString() === shopId && product.status === 'To Ship',
-                );
+        const orders = [];
 
-                if (matchingProducts.length > 0) {
-                    return { ...order._doc, products: matchingProducts };
+        for (let order of allOrders) {
+            const matchingProducts = [];
+
+            for (let product of order.products) {
+                if (product.shop.toString() === shopId && product.status === 'To Ship') {
+                    const productDetails = await ProductService.getProductById(product.product);
+                    matchingProducts.push({ ...product._doc, thumbnailImage: productDetails.thumbnailImage });
                 }
-            })
-            .filter((order) => order !== undefined);
+            }
+
+            if (matchingProducts.length > 0) {
+                orders.push({ ...order._doc, products: matchingProducts });
+            }
+        }
 
         res.json(orders);
     } catch (error) {
@@ -230,22 +235,27 @@ const getToShipOrders = async (req, res) => {
     }
 };
 
-const getshippingOrders = async (req, res) => {
+const getShippingOrders = async (req, res) => {
     try {
         const { shopId } = req.params;
 
         const allOrders = await OrderService.getAllOrders();
-        const orders = allOrders
-            .map((order) => {
-                const matchingProducts = order.products.filter(
-                    (product) => product.shop.toString() === shopId && product.status === 'Shipping',
-                );
+        const orders = [];
 
-                if (matchingProducts.length > 0) {
-                    return { ...order._doc, products: matchingProducts };
+        for (let order of allOrders) {
+            const matchingProducts = [];
+
+            for (let product of order.products) {
+                if (product.shop.toString() === shopId && product.status === 'Shipping') {
+                    const productDetails = await ProductService.getProductById(product.product);
+                    matchingProducts.push({ ...product._doc, thumbnailImage: productDetails.thumbnailImage });
                 }
-            })
-            .filter((order) => order !== undefined);
+            }
+
+            if (matchingProducts.length > 0) {
+                orders.push({ ...order._doc, products: matchingProducts });
+            }
+        }
 
         res.json(orders);
     } catch (error) {
@@ -258,17 +268,22 @@ const getCompletedOrders = async (req, res) => {
         const { shopId } = req.params;
 
         const allOrders = await OrderService.getAllOrders();
-        const orders = allOrders
-            .map((order) => {
-                const matchingProducts = order.products.filter(
-                    (product) => product.shop.toString() === shopId && product.status === 'Completed',
-                );
+        const orders = [];
 
-                if (matchingProducts.length > 0) {
-                    return { ...order._doc, products: matchingProducts };
+        for (let order of allOrders) {
+            const matchingProducts = [];
+
+            for (let product of order.products) {
+                if (product.shop.toString() === shopId && product.status === 'Completed') {
+                    const productDetails = await ProductService.getProductById(product.product);
+                    matchingProducts.push({ ...product._doc, thumbnailImage: productDetails.thumbnailImage });
                 }
-            })
-            .filter((order) => order !== undefined);
+            }
+
+            if (matchingProducts.length > 0) {
+                orders.push({ ...order._doc, products: matchingProducts });
+            }
+        }
 
         res.json(orders);
     } catch (error) {
@@ -285,6 +300,6 @@ module.exports = {
     getShopInformation,
     getShopProducts,
     getToShipOrders,
-    getshippingOrders,
+    getShippingOrders,
     getCompletedOrders,
 };

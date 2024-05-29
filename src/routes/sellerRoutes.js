@@ -8,7 +8,7 @@ const { uploadSingle, uploadFields } = require('../middleware/fileMiddleware');
 router.route('/information').get(sellerController.getSellerInformation);
 router.route('/shop/:sellerId').get(sellerController.getShopInformation);
 router.route('/orders/to-ship/:shopId').get(sellerController.getToShipOrders);
-router.route('/orders/shipping/:shopId').get(sellerController.getshippingOrders);
+router.route('/orders/shipping/:shopId').get(sellerController.getShippingOrders);
 router.route('/orders/completed/:shopId').get(sellerController.getCompletedOrders);
 
 // POST
