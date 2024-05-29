@@ -1,6 +1,29 @@
 const mongoose = require('mongoose');
 const Order = require('../models/OrderSchema');
+const Product = require('../models/ProductSchema');
 const customerService = require('../services/customerService');
+const productService = require('../services/productService');
+
+const updateVariantSales = async (productId, selectedVariant, quantity) => {
+    const product = await productService.getProductById(productId);
+    try {
+        const variant = product.variants.find((v) => v.color === selectedVariant);
+
+        if (!variant) {
+            throw new Error('Variant not found');
+        }
+
+        variant.totalSales += quantity;
+        variant.totalStock -= quantity;
+
+        await product.save();
+
+        return product;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
 
 const createOrder = async (customerId, groupedProduct, shippingOption, selectedPaymentMethod) => {
     const customer = await customerService.getCustomerById(customerId);
@@ -12,6 +35,8 @@ const createOrder = async (customerId, groupedProduct, shippingOption, selectedP
 
         for (const item of products) {
             const { product, quantity, selectedVariant } = item;
+
+            await updateVariantSales(product.productId, selectedVariant, quantity);
 
             const cartItemInstance = {
                 product: product.productId,
