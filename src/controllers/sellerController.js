@@ -230,7 +230,7 @@ const getToShipOrders = async (req, res) => {
     }
 };
 
-const getShippedOrders = async (req, res) => {
+const getshippingOrders = async (req, res) => {
     try {
         const { shopId } = req.params;
 
@@ -238,7 +238,7 @@ const getShippedOrders = async (req, res) => {
         const orders = allOrders
             .map((order) => {
                 const matchingProducts = order.products.filter(
-                    (product) => product.shop.toString() === shopId && product.status === 'Shipped',
+                    (product) => product.shop.toString() === shopId && product.status === 'Shipping',
                 );
 
                 if (matchingProducts.length > 0) {
@@ -285,6 +285,6 @@ module.exports = {
     getShopInformation,
     getShopProducts,
     getToShipOrders,
-    getShippedOrders,
+    getshippingOrders,
     getCompletedOrders,
 };

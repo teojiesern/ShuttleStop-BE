@@ -11,7 +11,7 @@ const CartItemSchema = new mongoose.Schema({
     status: {
         type: String,
         default: 'To Ship',
-        enum: ['To Ship', 'Shipped', 'Completed'],
+        enum: ['To Ship', 'Shipping', 'Completed'],
     },
     trackingNumber: {
         type: String,
