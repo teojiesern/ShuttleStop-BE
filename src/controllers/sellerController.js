@@ -220,7 +220,11 @@ const getToShipOrders = async (req, res) => {
             for (let product of order.products) {
                 if (product.shop.toString() === shopId && product.status === 'To Ship') {
                     const productDetails = await ProductService.getProductById(product.product);
-                    matchingProducts.push({ ...product._doc, thumbnailImage: productDetails.thumbnailImage });
+                    matchingProducts.push({
+                        ...product._doc,
+                        thumbnailImage: productDetails.thumbnailImage,
+                        name: productDetails.name,
+                    });
                 }
             }
 
@@ -248,7 +252,11 @@ const getShippingOrders = async (req, res) => {
             for (let product of order.products) {
                 if (product.shop.toString() === shopId && product.status === 'Shipping') {
                     const productDetails = await ProductService.getProductById(product.product);
-                    matchingProducts.push({ ...product._doc, thumbnailImage: productDetails.thumbnailImage });
+                    matchingProducts.push({
+                        ...product._doc,
+                        thumbnailImage: productDetails.thumbnailImage,
+                        name: productDetails.name,
+                    });
                 }
             }
 
@@ -276,7 +284,11 @@ const getCompletedOrders = async (req, res) => {
             for (let product of order.products) {
                 if (product.shop.toString() === shopId && product.status === 'Completed') {
                     const productDetails = await ProductService.getProductById(product.product);
-                    matchingProducts.push({ ...product._doc, thumbnailImage: productDetails.thumbnailImage });
+                    matchingProducts.push({
+                        ...product._doc,
+                        thumbnailImage: productDetails.thumbnailImage,
+                        name: productDetails.name,
+                    });
                 }
             }
 
