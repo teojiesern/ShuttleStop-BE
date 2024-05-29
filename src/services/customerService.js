@@ -1,5 +1,6 @@
 const CustomerModel = require('../models/CustomerSchema');
 const ShopModel = require('../models/ShopSchema');
+const OrderModel = require('../models/OrderSchema');
 
 const getCustomerById = async (customerId) => {
     const Customer = await CustomerModel.findOne({ customerId });
@@ -24,9 +25,69 @@ const getShopByProductId = async (productId) => {
     return Shop;
 };
 
+const getToShipPurchases = async (customerId) => {
+    const purchases = await OrderModel.aggregate([
+        { $match: { customer: customerId } },
+        {
+            $addFields: {
+                products: {
+                    $filter: {
+                        input: '$products',
+                        as: 'product',
+                        cond: { $eq: ['$$product.status', 'To Ship'] },
+                    },
+                },
+            },
+        },
+        { $match: { 'products.0': { $exists: true } } },
+    ]);
+    return purchases;
+};
+
+const getShippingPurchases = async (customerId) => {
+    const purchases = await OrderModel.aggregate([
+        { $match: { customer: customerId } },
+        {
+            $addFields: {
+                products: {
+                    $filter: {
+                        input: '$products',
+                        as: 'product',
+                        cond: { $eq: ['$$product.status', 'Shipping'] },
+                    },
+                },
+            },
+        },
+        { $match: { 'products.0': { $exists: true } } },
+    ]);
+    return purchases;
+};
+
+const getCompletedPurchases = async (customerId) => {
+    const purchases = await OrderModel.aggregate([
+        { $match: { customer: customerId } },
+        {
+            $addFields: {
+                products: {
+                    $filter: {
+                        input: '$products',
+                        as: 'product',
+                        cond: { $eq: ['$$product.status', 'Completed'] },
+                    },
+                },
+            },
+        },
+        { $match: { 'products.0': { $exists: true } } },
+    ]);
+    return purchases;
+};
+
 module.exports = {
     getCustomerById,
     getCustomerByEmail,
     updateCustomer,
     getShopByProductId,
+    getToShipPurchases,
+    getShippingPurchases,
+    getCompletedPurchases,
 };

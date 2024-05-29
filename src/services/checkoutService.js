@@ -34,14 +34,15 @@ const createOrder = async (customerId, groupedProduct, shippingOption, selectedP
         const { shop, products } = groupedProduct[shopName];
 
         for (const item of products) {
-            const { product, quantity, selectedVariant } = item;
+            const { product, quantity, selectedVariant, selectedVariantPrice } = item;
 
-            await updateVariantSales(product.productId, selectedVariant, quantity);
+            await updateVariantSales(product.productId, selectedVariant, quantity, selectedVariantPrice);
 
             const cartItemInstance = {
                 product: product.productId,
                 quantity: quantity,
                 selectedVariant: selectedVariant,
+                selectedVariantPrice: selectedVariantPrice,
                 shop: shop.shopId,
             };
 

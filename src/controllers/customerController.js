@@ -95,6 +95,36 @@ const getShop = async (req, res) => {
     }
 };
 
+const getToShipPurchases = async (req, res) => {
+    try {
+        const customerId = req.cookies['shuttle-token'];
+        const purchases = await customerService.getToShipPurchases(customerId);
+        res.json(purchases);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getShippingPurchases = async (req, res) => {
+    try {
+        const customerId = req.cookies['shuttle-token'];
+        const purchases = await customerService.getShippingPurchases(customerId);
+        res.json(purchases);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getCompletedPurchases = async (req, res) => {
+    try {
+        const customerId = req.cookies['shuttle-token'];
+        const purchases = await customerService.getCompletedPurchases(customerId);
+        res.json(purchases);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getCustomer,
     createCustomer,
@@ -102,4 +132,7 @@ module.exports = {
     getAllProducts,
     getProductById,
     getShop,
+    getToShipPurchases,
+    getShippingPurchases,
+    getCompletedPurchases,
 };

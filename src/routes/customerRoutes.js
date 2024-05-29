@@ -10,5 +10,8 @@ router.route('/my-profile').patch(uploadSingle, customerController.updateCustome
 router.route('/products').get(customerController.getAllProducts);
 router.route('/product/:productId').get(customerController.getProductById);
 router.route('/shop-by-product/:productId').get(customerController.getShop);
+router.route('/my-purchase-toship').get(customerController.getToShipPurchases);
+router.route('/my-purchase-shipping').get(customerController.getShippingPurchases);
+router.route('/my-purchase-completed').get(customerController.getCompletedPurchases);
 
 module.exports = router;

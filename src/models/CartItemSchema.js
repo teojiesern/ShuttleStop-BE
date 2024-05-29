@@ -7,6 +7,9 @@ const CartItemSchema = new mongoose.Schema({
     selectedVariant: {
         type: String,
     },
+    selectedVariantPrice: {
+        type: Number,
+    },
     shop: { type: String, ref: 'Shop' },
     status: {
         type: String,
