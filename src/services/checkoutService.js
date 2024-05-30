@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
 const Order = require('../models/OrderSchema');
-const Product = require('../models/ProductSchema');
+const Seller = require('../models/SellerSchema');
 const customerService = require('../services/customerService');
 const productService = require('../services/productService');
 
@@ -25,6 +24,20 @@ const updateVariantSales = async (productId, selectedVariant, quantity) => {
     }
 };
 
+const updateSellerIncome = async (sellerId, totalIncome) => {
+    const seller = await Seller.findOne({ sellerId: sellerId });
+    try {
+        seller.totalIncome += totalIncome + 5.9;
+
+        await seller.save();
+
+        return seller;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
 const createOrder = async (customerId, groupedProduct, shippingOption, selectedPaymentMethod) => {
     const customer = await customerService.getCustomerById(customerId);
 
@@ -32,6 +45,7 @@ const createOrder = async (customerId, groupedProduct, shippingOption, selectedP
 
     for (const shopName in groupedProduct) {
         const { shop, products } = groupedProduct[shopName];
+        let totalIncome = 0;
 
         for (const item of products) {
             const { product, quantity, selectedVariant, selectedVariantPrice } = item;
@@ -46,8 +60,11 @@ const createOrder = async (customerId, groupedProduct, shippingOption, selectedP
                 shop: shop.shopId,
             };
 
+            totalIncome += quantity * selectedVariantPrice;
+
             cartItems.push(cartItemInstance);
         }
+        updateSellerIncome(shop.owner, totalIncome);
     }
 
     let customerAddress;
