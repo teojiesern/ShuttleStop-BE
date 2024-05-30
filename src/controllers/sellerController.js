@@ -199,6 +199,20 @@ const updateSellerBankInformation = async (req, res) => {
     }
 };
 
+const withdrawIncome = async (req, res) => {
+    try {
+        const { sellerId, amount } = req.body;
+
+        const updatedIncome = await SellerService.withdrawIncome(sellerId, amount);
+        res.json(updatedIncome);
+    } catch (error) {
+        return res.status(500).json({
+            type: 'unable-to-withdraw-income',
+            message: err.message,
+        });
+    }
+};
+
 const getShopInformation = async (req, res) => {
     try {
         const shop = await SellerService.getShopInformation(req.params.sellerId);
@@ -371,4 +385,5 @@ module.exports = {
     getCompletedOrders,
     getPreviousMonthOrders,
     updateSellerBankInformation,
+    withdrawIncome,
 };

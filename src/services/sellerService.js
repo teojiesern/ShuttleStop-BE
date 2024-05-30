@@ -25,9 +25,16 @@ const updateShopInformation = async (sellerId, data) => {
     return shop;
 };
 
+const withdrawIncome = async (sellerId, amount) => {
+    const seller = await Seller.findOneAndUpdate({ sellerId }, { $inc: { totalIncome: -amount } }, { new: true });
+
+    return seller.totalIncome;
+};
+
 module.exports = {
     getSellerInformation,
     getShopInformation,
     updateShopInformation,
     updateSellerInformation,
+    withdrawIncome,
 };
