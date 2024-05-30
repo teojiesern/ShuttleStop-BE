@@ -35,10 +35,10 @@ router.route('/update-product').post(
     sellerController.updateProduct,
 );
 router.route('/products').post(sellerController.getShopProducts);
-router.route('/seller-bank').post(sellerController.updateSellerBankInformation);
 
 // PATCH
 router.route('/update-shop').patch(uploadSingle, sellerController.updateShop);
+router.route('/seller-bank').patch(sellerController.updateSellerBankInformation);
 router.route('/withdraw').patch(sellerController.withdrawIncome);
 
 module.exports = router;
