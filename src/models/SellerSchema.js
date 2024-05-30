@@ -32,10 +32,12 @@ const SellerSchema = new mongoose.Schema({
     accountNumber: {
         type: String,
         trim: true,
+        default: '',
     },
     nameInBankAccount: {
         type: String,
         trim: true,
+        default: '',
     },
     totalIncome: {
         type: Number,
