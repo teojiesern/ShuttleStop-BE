@@ -25,7 +25,8 @@ const SellerSchema = new mongoose.Schema({
     },
     bankAccount: {
         type: String,
-        enum: ['Maybank2u', 'CIMB Clicks', 'Public Bank', 'RHB Now', 'Bank Islam', 'Standard Chartered'],
+        enum: ['Maybank2u', 'CIMB Clicks', 'Public Bank', 'RHB Now', 'Bank Islam', 'Standard Chartered', ''],
+        default: '',
         trim: true,
     },
     accountNumber: {
