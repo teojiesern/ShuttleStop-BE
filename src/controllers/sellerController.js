@@ -1,3 +1,7 @@
+const dayjs = require('dayjs');
+const isBetween = require('dayjs/plugin/isBetween');
+dayjs.extend(isBetween);
+
 const Shop = require('../models/ShopSchema');
 const Seller = require('../models/SellerSchema');
 
@@ -303,6 +307,42 @@ const getCompletedOrders = async (req, res) => {
     }
 };
 
+const getPreviousMonthOrders = async (req, res) => {
+    try {
+        const { shopId } = req.params;
+
+        const startDate = dayjs().subtract(30, 'day').startOf('day');
+        const endDate = dayjs().endOf('day');
+
+        const allOrders = await OrderService.getAllOrders();
+        const products = [];
+
+        for (let order of allOrders) {
+            if (dayjs(order.created).isBetween(startDate, endDate)) {
+                for (let product of order.products) {
+                    if (product.shop.toString() === shopId) {
+                        const productDetails = await ProductService.getProductById(product.product);
+                        products.push({
+                            orderId: order.orderId,
+                            productDescription: product.selectedVariant,
+                            productImage: productDetails.thumbnailImage,
+                            productName: productDetails.name,
+                            quantity: product.quantity,
+                            date: order.created,
+                            paymentMethod: order.paymentMethod,
+                            amount: product.selectedVariantPrice * product.quantity,
+                        });
+                    }
+                }
+            }
+        }
+
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ type: 'internal-server-error', message: error.message });
+    }
+};
+
 module.exports = {
     registerSeller,
     updateShop,
@@ -314,4 +354,5 @@ module.exports = {
     getToShipOrders,
     getShippingOrders,
     getCompletedOrders,
+    getPreviousMonthOrders,
 };

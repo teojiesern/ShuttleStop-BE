@@ -10,6 +10,7 @@ router.route('/shop/:sellerId').get(sellerController.getShopInformation);
 router.route('/orders/to-ship/:shopId').get(sellerController.getToShipOrders);
 router.route('/orders/shipping/:shopId').get(sellerController.getShippingOrders);
 router.route('/orders/completed/:shopId').get(sellerController.getCompletedOrders);
+router.route('/order/:shopId').get(sellerController.getPreviousMonthOrders);
 
 // POST
 router.route('/signup').post(uploadSingle, sellerController.registerSeller);
