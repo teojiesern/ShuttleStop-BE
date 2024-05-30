@@ -213,6 +213,22 @@ const withdrawIncome = async (req, res) => {
     }
 };
 
+const shipOrders = async (req, res) => {
+    try {
+        const { trackingNumbers } = req.body;
+        await OrderService.shipOrders(trackingNumbers, 'Shipping');
+
+        return res.status(200).json({
+            message: 'Successfully shipped orders!',
+        });
+    } catch (error) {
+        return res.status(500).json({
+            type: 'unable-to-ship-orders',
+            message: error.message,
+        });
+    }
+};
+
 const getShopInformation = async (req, res) => {
     try {
         const shop = await SellerService.getShopInformation(req.params.sellerId);
@@ -386,4 +402,5 @@ module.exports = {
     getPreviousMonthOrders,
     updateSellerBankInformation,
     withdrawIncome,
+    shipOrders,
 };

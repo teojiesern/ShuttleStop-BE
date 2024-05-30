@@ -22,7 +22,18 @@ const updateOrderStatus = async (trackingNumbers, newStatus) => {
     }
 };
 
+const shipOrders = async (trackingNumbers) => {
+    for (let trackingNumber of trackingNumbers) {
+        await Order.updateMany(
+            { 'products.trackingNumber': trackingNumber },
+            { $set: { 'products.$[elem].status': 'Shipping' } },
+            { arrayFilters: [{ 'elem.trackingNumber': trackingNumber }] },
+        );
+    }
+};
+
 module.exports = {
     getAllOrders,
     updateOrderStatus,
+    shipOrders,
 };

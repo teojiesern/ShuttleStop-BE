@@ -35,6 +35,7 @@ router.route('/update-product').post(
     sellerController.updateProduct,
 );
 router.route('/products').post(sellerController.getShopProducts);
+router.route('/ship-orders').post(sellerController.shipOrders);
 
 // PATCH
 router.route('/update-shop').patch(uploadSingle, sellerController.updateShop);
