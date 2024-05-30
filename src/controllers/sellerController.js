@@ -194,7 +194,7 @@ const updateSellerBankInformation = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             type: 'unable-to-update-seller-bank-information',
-            message: err.message,
+            message: error.message,
         });
     }
 };
@@ -208,7 +208,7 @@ const withdrawIncome = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             type: 'unable-to-withdraw-income',
-            message: err.message,
+            message: error.message,
         });
     }
 };
