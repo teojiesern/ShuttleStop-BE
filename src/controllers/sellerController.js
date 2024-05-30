@@ -328,7 +328,7 @@ const getPreviousMonthOrders = async (req, res) => {
                             productImage: productDetails.thumbnailImage,
                             productName: productDetails.name,
                             quantity: product.quantity,
-                            date: order.created,
+                            date: dayjs(order.created).format('D MMMM YYYY'),
                             paymentMethod: order.paymentMethod,
                             amount: product.selectedVariantPrice * product.quantity,
                         });
