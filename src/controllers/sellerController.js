@@ -184,6 +184,21 @@ const getSellerInformation = async (req, res) => {
     }
 };
 
+const updateSellerBankInformation = async (req, res) => {
+    try {
+        const { sellerId, ...payload } = req.body;
+
+        const updatedSeller = await SellerService.updateSellerInformation(sellerId, payload);
+
+        res.json(updatedSeller);
+    } catch (error) {
+        return res.status(500).json({
+            type: 'unable-to-update-seller-bank-information',
+            message: err.message,
+        });
+    }
+};
+
 const getShopInformation = async (req, res) => {
     try {
         const shop = await SellerService.getShopInformation(req.params.sellerId);
@@ -355,4 +370,5 @@ module.exports = {
     getShippingOrders,
     getCompletedOrders,
     getPreviousMonthOrders,
+    updateSellerBankInformation,
 };

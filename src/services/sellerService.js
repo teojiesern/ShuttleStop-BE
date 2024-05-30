@@ -13,6 +13,12 @@ const getShopInformation = async (sellerId) => {
     return shop;
 };
 
+const updateSellerInformation = async (sellerId, data) => {
+    const shop = await Seller.findOneAndUpdate({ sellerId }, data, { new: true });
+
+    return shop;
+};
+
 const updateShopInformation = async (sellerId, data) => {
     const shop = await Shop.findOneAndUpdate({ owner: sellerId }, data, { new: true });
 
@@ -23,4 +29,5 @@ module.exports = {
     getSellerInformation,
     getShopInformation,
     updateShopInformation,
+    updateSellerInformation,
 };
