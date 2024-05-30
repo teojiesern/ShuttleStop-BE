@@ -1,7 +1,7 @@
 const customerService = require('../services/customerService');
 const productService = require('../services/productService');
 const Customer = require('../models/CustomerSchema');
-const Product = require('../models/ProductSchema');
+const OrderService = require('../services/orderService');
 
 const getCustomer = async (req, res) => {
     try {
@@ -125,6 +125,16 @@ const getCompletedPurchases = async (req, res) => {
     }
 };
 
+const updateOrderStatus = async (req, res) => {
+    try {
+        const { trackingNumbers, newStatus } = req.body;
+        const result = await OrderService.updateOrderStatus(trackingNumbers, newStatus);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.toString() });
+    }
+};
+
 module.exports = {
     getCustomer,
     createCustomer,
@@ -135,4 +145,5 @@ module.exports = {
     getToShipPurchases,
     getShippingPurchases,
     getCompletedPurchases,
+    updateOrderStatus,
 };

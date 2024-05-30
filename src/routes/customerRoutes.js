@@ -13,5 +13,6 @@ router.route('/shop-by-product/:productId').get(customerController.getShop);
 router.route('/my-purchase-toship').get(customerController.getToShipPurchases);
 router.route('/my-purchase-shipping').get(customerController.getShippingPurchases);
 router.route('/my-purchase-completed').get(customerController.getCompletedPurchases);
+router.route('/update-order-status').patch(customerController.updateOrderStatus);
 
 module.exports = router;
