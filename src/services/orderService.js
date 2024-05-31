@@ -7,11 +7,11 @@ const getAllOrders = async () => {
     return orders;
 };
 
-const updateOrderStatus = async (trackingNumbers, newStatus) => {
+const completeOrder = async (trackingNumbers) => {
     try {
         const result = await Order.updateMany(
             { 'products.trackingNumber': { $in: trackingNumbers } },
-            { $set: { 'products.$[].status': newStatus } },
+            { $set: { 'products.$[].status': 'Completed' } },
         );
 
         if (result.nModified == 0) {
@@ -56,7 +56,7 @@ const updateProductRating = async (orderId, productIds, ratings) => {
 
 module.exports = {
     getAllOrders,
-    updateOrderStatus,
+    completeOrder,
     shipOrders,
     updateProductRating,
 };
