@@ -40,6 +40,7 @@ const getToShipPurchases = async (customerId) => {
             },
         },
         { $match: { 'products.0': { $exists: true } } },
+        { $sort: { created: -1 } },
     ]);
     return purchases;
 };
@@ -59,6 +60,7 @@ const getShippingPurchases = async (customerId) => {
             },
         },
         { $match: { 'products.0': { $exists: true } } },
+        { $sort: { created: -1 } },
     ]);
     return purchases;
 };
@@ -78,6 +80,7 @@ const getCompletedPurchases = async (customerId) => {
             },
         },
         { $match: { 'products.0': { $exists: true } } },
+        { $sort: { created: -1 } },
     ]);
     return purchases;
 };

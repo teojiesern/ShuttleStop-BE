@@ -125,10 +125,10 @@ const getCompletedPurchases = async (req, res) => {
     }
 };
 
-const updateOrderStatus = async (req, res) => {
+const completeOrder = async (req, res) => {
     try {
         const { trackingNumbers, newStatus } = req.body;
-        const result = await OrderService.updateOrderStatus(trackingNumbers, newStatus);
+        const result = await OrderService.completeOrder(trackingNumbers);
         res.json(result);
     } catch (error) {
         res.status(500).json({ error: error.toString() });
@@ -156,6 +156,6 @@ module.exports = {
     getToShipPurchases,
     getShippingPurchases,
     getCompletedPurchases,
-    updateOrderStatus,
+    completeOrder,
     updateProductRating,
 };
