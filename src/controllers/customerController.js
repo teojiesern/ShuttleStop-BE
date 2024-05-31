@@ -135,6 +135,17 @@ const updateOrderStatus = async (req, res) => {
     }
 };
 
+const updateProductRating = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        const { productIds, ratings } = req.body;
+        const result = await OrderService.updateProductRating(orderId, productIds, ratings);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getCustomer,
     createCustomer,
@@ -146,4 +157,5 @@ module.exports = {
     getShippingPurchases,
     getCompletedPurchases,
     updateOrderStatus,
+    updateProductRating,
 };
