@@ -14,5 +14,6 @@ router.route('/my-purchase-toship').get(customerController.getToShipPurchases);
 router.route('/my-purchase-shipping').get(customerController.getShippingPurchases);
 router.route('/my-purchase-completed').get(customerController.getCompletedPurchases);
 router.route('/update-order-status').patch(customerController.updateOrderStatus);
+router.route('/update-rating/:orderId').patch(customerController.updateProductRating);
 
 module.exports = router;

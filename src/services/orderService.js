@@ -1,4 +1,6 @@
 const Order = require('../models/OrderSchema');
+const Product = require('../models/ProductSchema');
+const ProductService = require('../services/productService');
 
 const getAllOrders = async () => {
     const orders = await Order.find();
@@ -32,8 +34,29 @@ const shipOrders = async (trackingNumbers) => {
     }
 };
 
+const updateProductRating = async (orderId, productIds, ratings) => {
+    const result = await Order.updateOne({ orderId: orderId }, { $set: { rated: true } });
+
+    for (let i = 0; i < productIds.length; i++) {
+        const product = await ProductService.getProductById(productIds[i]);
+        const newRate = (product.numReviews * product.rate + ratings[i]) / (product.numReviews + 1);
+
+        await Product.updateOne(
+            { productId: productIds[i] },
+            {
+                $set: { rate: newRate },
+                $inc: { numReviews: 1 },
+            },
+            { new: true },
+        );
+    }
+
+    return result;
+};
+
 module.exports = {
     getAllOrders,
     updateOrderStatus,
     shipOrders,
+    updateProductRating,
 };

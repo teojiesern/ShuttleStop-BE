@@ -40,6 +40,10 @@ const OrderSchema = new mongoose.Schema({
         default: Date.now,
     },
     customer: { type: String, ref: 'Customer' },
+    rated: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const Order = mongoose.model('Order', OrderSchema);
