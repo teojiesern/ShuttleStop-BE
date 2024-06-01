@@ -16,10 +16,8 @@ const getCoachByID = async (req) => {
 
 const updateCoach = async (req, data) => {
     const coachId = req.params.coachId;
-    console.log('coachid', coachId);
 
     const updatedCoach = await CoachModel.findOneAndUpdate({ coachId }, data, { new: true });
-    console.log('updatesuccessfully');
     return updatedCoach;
 };
 
