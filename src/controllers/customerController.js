@@ -146,6 +146,18 @@ const updateProductRating = async (req, res) => {
     }
 };
 
+const changePassword = async (req, res) => {
+    try {
+        const { newPassword, email } = req.body;
+        const customer = await customerService.getCustomerByEmail(email);
+        await customer.changePassword(newPassword);
+
+        res.status(200).send('Password changed successfully');
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+};
+
 module.exports = {
     getCustomer,
     createCustomer,
@@ -158,4 +170,5 @@ module.exports = {
     getCompletedPurchases,
     completeOrder,
     updateProductRating,
+    changePassword,
 };

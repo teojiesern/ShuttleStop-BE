@@ -103,6 +103,12 @@ CustomerSchema.methods = {
     makeSalt: function () {
         return Math.round(new Date().valueOf() * Math.random()) + '';
     },
+    changePassword: function (password) {
+        this.salt = this.makeSalt();
+        this.hashed_password = this.encryptPassword(password);
+
+        return this.save();
+    },
 };
 
 const Customer = mongoose.model('Customer', CustomerSchema);

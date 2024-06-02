@@ -15,5 +15,6 @@ router.route('/my-purchase-shipping').get(customerController.getShippingPurchase
 router.route('/my-purchase-completed').get(customerController.getCompletedPurchases);
 router.route('/complete-order').patch(customerController.completeOrder);
 router.route('/update-rating/:orderId').patch(customerController.updateProductRating);
+router.route('/change-password').patch(customerController.changePassword);
 
 module.exports = router;
