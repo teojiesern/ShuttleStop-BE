@@ -33,6 +33,13 @@ const login = async (req, res) => {
     }
 };
 
+const logout = async (req, res) => {
+    res.clearCookie('shuttle-token');
+    res.json({
+        message: 'Logged out',
+    });
+};
+
 const sendOTP = async (req, res) => {
     try {
         const { email } = req.body;
@@ -168,4 +175,5 @@ module.exports = {
     login,
     sendOTP,
     hasCookie,
+    logout,
 };
