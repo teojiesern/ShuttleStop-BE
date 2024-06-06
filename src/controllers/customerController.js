@@ -28,10 +28,17 @@ const createCustomer = async (req, res) => {
             message: 'Successfully signed up!',
         });
     } catch (err) {
-        return res.status(500).json({
-            type: 'unable-to-create-user',
-            message: err.message,
-        });
+        if (err.code === 11000 || err.code === 11001) {
+            return res.status(400).json({
+                type: 'duplicate-email',
+                message: 'The email address you have entered is already associated with another account.',
+            });
+        } else {
+            return res.status(500).json({
+                type: 'unable-to-create-user',
+                message: err.message,
+            });
+        }
     }
 };
 
